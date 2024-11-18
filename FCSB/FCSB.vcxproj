@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Championship.cpp" />
+    <ClCompile Include="Coach.cpp" />
     <ClCompile Include="FCSB.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Team.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Championship.h" />
+    <ClInclude Include="Coach.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Team.h" />
     <ClInclude Include="Transfermarkt.h" />

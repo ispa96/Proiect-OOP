@@ -7,6 +7,7 @@
 
 #include "Transfermarkt.h"
 #include "Team.h"
+#include "Coach.h"
 
 class Championship {
 private:

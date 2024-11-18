@@ -30,6 +30,9 @@
     <ClCompile Include="Transfermarkt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Coach.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Championship.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transfermarkt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Coach.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

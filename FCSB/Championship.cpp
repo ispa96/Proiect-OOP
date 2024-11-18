@@ -50,12 +50,11 @@ void Championship::Run() {
 		std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
 	std::cout << '\n';
 
-	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea primelor 15 etape de campionat!";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea primelor 15 etape de campionat!\n";
 	std::getline(std::cin, str);
 	system("cls");
 
 	int times = 0, it = 1;
-	std::cout << '\n';
 
 	while (times != 30) {
 		system("cls");
@@ -78,6 +77,7 @@ void Championship::Run() {
 
 	/// acum trebuie sa simulez primele 15 meciuri pentru fiecare echipa
 	srand(static_cast <unsigned int> (time(0)));
+	Coach coach;
 
 	for (int i = 0; i < m_teams.size() - 1; i++) {
 		for (int j = i + 1; j < m_teams.size(); j++) {
@@ -101,6 +101,11 @@ void Championship::Run() {
 
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("WIN");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("LOSE");
 			}
 			else if (goals1 == goals2) {	/// s a terminat egal
 				m_teams[i].Draw_Increase_Points();
@@ -110,6 +115,11 @@ void Championship::Run() {
 
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals1, goals2);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("DRAW");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("DRAW");
 			}
 			else {	/// a castigat m_teams[j]
 				m_teams[j].Win_Increase_Points();
@@ -117,6 +127,11 @@ void Championship::Run() {
 
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("LOSE");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("WIN");
 			}
 		}
 	}
@@ -132,6 +147,10 @@ void Championship::Run() {
 	int my_index = 0;
 	index = 0;
 
+	std::cout << "[WARNING]: Rating-ul tau ca antrenor este ";
+	coach.Calculate_Performance();
+	coach.Print_Performance();
+	std::cout << ".\n";
 	std::cout << "[WARNING]: Echipa ta se afla pe locul ";
 	for (auto& team : m_teams) {
 		if (team.Get_Name() == "FCSB") {
