@@ -3,11 +3,16 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 std::ifstream fin("Echipe_Superliga.in");
 
 Championship::Championship() {
 	m_name = "SUPERLIGA";
+}
+
+static bool cmp(Team& t1, Team& t2) {
+	return t1.Get_Points() > t2.Get_Points();
 }
 
 void Championship::Run() {
@@ -40,11 +45,12 @@ void Championship::Run() {
 		m_teams.emplace_back(team);
 	}
 
+	int index = 0;
 	for (auto& team : m_teams)
-		team.Print_Points(), std::cout << " pts. ", team.Print_Name(), std::cout << '\n';
+		std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
 	std::cout << '\n';
 
-	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea primei jumatati de campionat!";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea primelor 15 etape de campionat!";
 	std::getline(std::cin, str);
 	system("cls");
 
@@ -94,7 +100,28 @@ void Championship::Run() {
 		}
 	}
 
+	sort(m_teams.begin(), m_teams.end(), cmp);
+	std::cout << "[WARNING]: Asa arata clasamentul dupa primele 15 meciuri !\n\n";
+
+	index = 0;
 	for (auto& team : m_teams)
-		team.Print_Points(), std::cout << " pts. ", team.Print_Name(), std::cout << '\n';
+		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
 	std::cout << '\n';
+
+	std::cout << "[WARNING]: Echipa ta se afla pe locul ";
+	for (auto& team : m_teams) {
+		if (team.Get_Name() == "FCSB") {
+			std::cout << team.Get_Position_In_Championship();
+			break;
+		}
+	}
+	std::cout << ".\n";
+
+	std::cout << "[WARNING': Apasa [ENTER] pentru a trece in perioada de transferuri !";
+	std::getline(std::cin, str);
+	system("cls");
+
+	std::cout << "[WARNING]: Ne aflam in perioada de transferuri!\n";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru afisarea jucatorilor transferabili !\n";
+	std::getline(std::cin, str);
 }

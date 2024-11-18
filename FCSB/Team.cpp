@@ -24,3 +24,19 @@ void Team::Win_Increase_Points() {
 void Team::Draw_Increase_Points() {
 	m_points++;
 }
+
+int Team::Get_Points() {
+	return m_points;
+}
+
+std::string Team::Get_Name() {
+	return m_name;
+}
+
+void Team::Set_Position_In_Championship(int position) {
+	m_position_in_championship = position;
+}
+
+int Team::Get_Position_In_Championship() {
+	return m_position_in_championship;
+}
