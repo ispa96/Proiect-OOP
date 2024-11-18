@@ -108,3 +108,29 @@ void Team::Match_Increase_Budget(long long& sum) {
 void Team::Print_Budget() {
 	std::cout << m_budget;
 }
+
+void Team::Add_Player(Player& player) {
+	m_players.emplace_back(player);
+}
+
+long long Team::Get_Budget() {
+	return m_budget;
+}
+
+void Team::Update_Budget(long long sum) {
+	m_budget -= sum;
+}
+
+void Team::Add_Trans_Player(Player& player) {
+	m_trans_players.emplace_back(player);
+}
+
+void Team::Print_Trans_Players() {
+	for (auto& player : m_trans_players) {
+		std::cout << "[NAME]: ";
+		player.Get_FirstName_LastName();
+		std::cout << "\n[POSITION]: ";
+		player.Get_Position();
+		std::cout << "\n\n";
+	}
+}

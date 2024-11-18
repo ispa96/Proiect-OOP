@@ -75,6 +75,8 @@ void Championship::Run() {
 	}
 	system("cls");
 
+	/// ------------------------------------------------------------------------------- PRIMA PARTE A CAMPIONATULUI --------------------------------------------------------------------
+
 	/// acum trebuie sa simulez primele 15 meciuri pentru fiecare echipa
 	srand(static_cast <unsigned int> (time(0)));
 	Coach coach;
@@ -177,9 +179,11 @@ void Championship::Run() {
 	m_teams[my_index].Init_Players();
 	m_teams[my_index].Get_Players();
 
-	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a trece in perioada de transferuri !";
+	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a trece in perioada de transferuri !\n";
 	std::getline(std::cin, str);
 	system("cls");
+
+	/// ------------------------------------------------------------------------------- PERIOADA DE TRANSFERURI --------------------------------------------------------------------
 
 	std::cout << "[WARNING]: Ne aflam in perioada de transferuri!\n";
 	std::cout << "[WARNING]: Bugetul echipei tale este in valoare de ";
@@ -191,4 +195,64 @@ void Championship::Run() {
 	Transfermarkt transfermarkt;
 	transfermarkt.Init_Players();
 	transfermarkt.Print_Players();
+	transfermarkt.Sort_Players();
+
+	std::cout << "[WARNING]: Doresti sa transferi jucatori ?\n";
+	std::cout << "[WARNING]: Apasa '1', daca doresti, respectiv '0', daca nu doresti !\n";
+	bool value = 0;
+	std::cin >> value;
+
+	if (value == 1) {
+		times = 0;
+		it = 1;
+
+		while (times != 30) {
+			system("cls");
+			std::cout << "-------------------------------";
+			std::cout << '\n';
+			std::cout << '|';
+			for (unsigned int j = 0; j < it - 1; j++)
+				std::cout << char(35);
+			for (unsigned int j = 0; j < 29 - times; j++)
+				std::cout << ' ';
+			std::cout << "|";
+			std::cout << '\n';
+			std::cout << "-------------------------------";
+
+			times++;
+			it++;
+			Sleep(30);
+		}
+		system("cls");
+
+		int trans_players = 0;
+		for (int i = 0; i < 7; i++) {
+			Player player = transfermarkt.Get_Player(i);
+
+			if (m_teams[my_index].Get_Budget() - (player.Get_Value_Number() * 1000000) >= 0) {
+				trans_players++;
+				m_teams[my_index].Add_Trans_Player(player);
+				m_teams[my_index].Add_Player(player);
+
+				m_teams[my_index].Add_Player(player);
+				m_teams[my_index].Update_Budget(player.Get_Value_Number()* 1000000);
+				// m_teams[my_index].Print_Budget();
+				// std::cout << '\n';
+			}
+			else break;
+		}
+
+		std::cout << "[WARNING]: Ati transferat " << trans_players << " jucatori :\n\n";
+		m_teams[my_index].Print_Trans_Players();
+		std::cout << "[WARNING]: Acum bugetul echipei este estimat la ";
+		m_teams[my_index].Print_Budget();
+		std::cout << " euro !\n";
+	}
+	/// else nu face nimic
+
+	std::cout << "[WARNING]: Perioada de transferuri s-a incheiat!\n";
+	std::cout << "[WARNING]: Urmeaza cea de-a doua jumatate a sezonului!\n";
+	std::cout << "[WARNING]: Multa Bafta !!!\n";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru reinceperea campionatului!\n";
+	std::getline(std::cin, str);
 }

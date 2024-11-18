@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "Player.h"
 
@@ -12,5 +13,7 @@ private:
 public:
 	void Init_Players();
 	void Print_Players();
+	void Sort_Players();
+	Player Get_Player(int);
 };
 

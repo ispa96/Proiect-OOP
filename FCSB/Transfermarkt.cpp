@@ -47,3 +47,13 @@ void Transfermarkt::Print_Players() {
 		std::cout << "\n\n";
 	}
 }
+
+void Transfermarkt::Sort_Players() {
+	sort(m_players.begin(), m_players.end(), [](Player& player1, Player& player2) {
+		return player1.Get_Value_Number() < player2.Get_Value_Number();
+	});
+}
+
+Player Transfermarkt::Get_Player(int index) {
+	return m_players[index];
+}

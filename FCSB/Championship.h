@@ -18,4 +18,3 @@ public:
 	Championship();
 	void Run();
 };
-
