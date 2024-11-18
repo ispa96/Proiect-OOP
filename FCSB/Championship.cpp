@@ -1,5 +1,8 @@
 #include "Championship.h"
+
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 std::ifstream fin("Echipe_Superliga.in");
 
@@ -68,5 +71,25 @@ void Championship::Run() {
 	system("cls");
 
 	/// acum trebuie sa simulez primele 15 meciuri pentru fiecare echipa
+	srand(static_cast <unsigned int> (time(0)));
 
+	for (int i = 0; i < m_teams.size() - 1; i++) {
+		for (int j = i + 1; j < m_teams.size(); j++) {
+			/// o sa joace m_teams[i] cu m_teams[j]
+
+			int goals1 = rand() % 6 + 1;
+			int goals2 = rand() % 6 + 1;
+			// std::cout << goals1 << ' ' << goals2 << '\n';
+
+			if (goals1 > goals2) {	/// a castigat m_teams[i]
+				
+			}
+			else if (goals1 == goals2) {	/// s a terminat egal
+
+			}
+			else {	/// a castigat m_teams[j]
+
+			}
+		}
+	}
 }
