@@ -89,13 +89,19 @@ void Championship::Run() {
 
 			if (goals1 > goals2) {	/// a castigat m_teams[i]
 				m_teams[i].Win_Increase_Points();
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
 			}
 			else if (goals1 == goals2) {	/// s a terminat egal
 				m_teams[i].Draw_Increase_Points();
 				m_teams[j].Draw_Increase_Points();
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals1, goals2);
 			}
 			else {	/// a castigat m_teams[j]
 				m_teams[j].Win_Increase_Points();
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
 			}
 		}
 	}

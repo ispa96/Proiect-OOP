@@ -3,6 +3,7 @@
 Team::Team() {
 	m_points = 0;
 	m_budget = 0;
+	m_position_in_championship = 0;
 }
 
 void Team::Set_Name(std::string name) {
@@ -39,4 +40,14 @@ void Team::Set_Position_In_Championship(int position) {
 
 int Team::Get_Position_In_Championship() {
 	return m_position_in_championship;
+}
+
+void Team::Update_Status(Team& other_team, int& goals1, int& goals2) {
+	m_status.emplace_back(std::make_pair(other_team.Get_Name(), std::make_pair(goals1, goals2)));
+}
+
+void Team::Print_Status() {
+	for (auto& match : m_status) {
+		std::cout << "vs. " << match.first << ' ' << match.second.first << " - " << match.second.second << '\n';
+	}
 }
