@@ -122,8 +122,15 @@ void Championship::Run() {
 		}
 	}
 	std::cout << ".\n";
+	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in prima jumatate a SUPERLIGII:\n\n";
+	for (auto& team : m_teams) {
+		if (team.Get_Name() == "FCSB") {
+			team.Print_Status();
+			break;
+		}
+	}
 
-	std::cout << "[WARNING': Apasa [ENTER] pentru a trece in perioada de transferuri !";
+	std::cout << "\n[WARNING': Apasa [ENTER] pentru a trece in perioada de transferuri !";
 	std::getline(std::cin, str);
 	system("cls");
 
