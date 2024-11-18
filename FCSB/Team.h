@@ -12,5 +12,7 @@ public:
 	void Set_Name(std::string);
 	void Print_Name();
 	void Print_Points();
+	void Win_Increase_Points();
+	void Draw_Increase_Points();
 };
 

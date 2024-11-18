@@ -16,3 +16,11 @@ void Team::Print_Name() {
 void Team::Print_Points() {
 	std::cout << m_points;
 }
+
+void Team::Win_Increase_Points() {
+	m_points += 3;
+}
+
+void Team::Draw_Increase_Points() {
+	m_points++;
+}

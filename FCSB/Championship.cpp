@@ -82,14 +82,19 @@ void Championship::Run() {
 			// std::cout << goals1 << ' ' << goals2 << '\n';
 
 			if (goals1 > goals2) {	/// a castigat m_teams[i]
-				
+				m_teams[i].Win_Increase_Points();
 			}
 			else if (goals1 == goals2) {	/// s a terminat egal
-
+				m_teams[i].Draw_Increase_Points();
+				m_teams[j].Draw_Increase_Points();
 			}
 			else {	/// a castigat m_teams[j]
-
+				m_teams[j].Win_Increase_Points();
 			}
 		}
 	}
+
+	for (auto& team : m_teams)
+		team.Print_Points(), std::cout << " pts. ", team.Print_Name(), std::cout << '\n';
+	std::cout << '\n';
 }
