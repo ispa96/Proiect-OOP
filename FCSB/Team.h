@@ -25,6 +25,10 @@ public:
 	void Print_Status();
 	void Init_Players();
 	void Get_Players();
+	void Win_Increase_Budget();
+	void Draw_Increase_Budget();
+	void Match_Increase_Budget(long long&);
+	void Print_Budget();
 	int Get_Position_In_Championship();
 	int Get_Points();
 	std::string Get_Name();

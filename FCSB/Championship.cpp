@@ -24,15 +24,15 @@ void Championship::Run() {
 
 	std::string aux = "*******";
 	for (int i = 0; i < aux.size(); i++)
-		std::cout << aux[i], Sleep(100);
+		std::cout << aux[i], Sleep(75);
 	std::cout << ' ';
 
 	for (int i = 0; i < m_name.size(); i++)
-		std::cout << m_name[i], Sleep(100);
+		std::cout << m_name[i], Sleep(75);
 	std::cout << ' ';
 
 	for (int i = 0; i < aux.size(); i++)
-		std::cout << aux[i], Sleep(100);
+		std::cout << aux[i], Sleep(75);
 	std::cout << '\n';
 
 	std::cout << "\n[WARNING]: Prima parte a SUPERLIGII va contine primele 15 meciuri din acest sezon.\n[WARNING]: Multa Bafta !!!\n";
@@ -83,23 +83,38 @@ void Championship::Run() {
 		for (int j = i + 1; j < m_teams.size(); j++) {
 			/// o sa joace m_teams[i] cu m_teams[j]
 
-			int goals1 = rand() % 6 + 1;
-			int goals2 = rand() % 6 + 1;
+			long long supporters = rand() % 30000 + 1;	/// 30k
+			if (supporters < 15000)
+				supporters += 15000;
+			supporters *= 10;
+
+			m_teams[i].Match_Increase_Budget(supporters);
+			m_teams[j].Match_Increase_Budget(supporters);
+
+			int goals1 = rand() % 6;
+			int goals2 = rand() % 6;
 			// std::cout << goals1 << ' ' << goals2 << '\n';
 
 			if (goals1 > goals2) {	/// a castigat m_teams[i]
 				m_teams[i].Win_Increase_Points();
+				m_teams[i].Win_Increase_Budget();
+
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
 			}
 			else if (goals1 == goals2) {	/// s a terminat egal
 				m_teams[i].Draw_Increase_Points();
 				m_teams[j].Draw_Increase_Points();
+				m_teams[i].Draw_Increase_Budget();
+				m_teams[j].Draw_Increase_Budget();
+
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals1, goals2);
 			}
 			else {	/// a castigat m_teams[j]
 				m_teams[j].Win_Increase_Points();
+				m_teams[j].Win_Increase_Budget();
+
 				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
 				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
 			}
@@ -148,6 +163,9 @@ void Championship::Run() {
 	system("cls");
 
 	std::cout << "[WARNING]: Ne aflam in perioada de transferuri!\n";
+	std::cout << "[WARNING]: Bugetul echipei tale este in valoare de ";
+	m_teams[my_index].Print_Budget();
+	std::cout << " euro!\n";
 	std::cout << "[WARNING]: Apasa [ENTER] pentru afisarea jucatorilor transferabili !\n";
 	std::getline(std::cin, str);
 }

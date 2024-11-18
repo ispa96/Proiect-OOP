@@ -76,7 +76,7 @@ void Team::Init_Players() {
 			}
 		}
 
-		std::cout << first_name << ' ' << last_name << ' ' << position << ' ' << value << '\n';
+		// std::cout << first_name << ' ' << last_name << ' ' << position << ' ' << value << '\n';
 
 		/// creeaza jucatorul cu datele respective si il baga pe Transfermarkt 
 		Player p(first_name, last_name, position, value);
@@ -92,4 +92,20 @@ void Team::Get_Players() {
 		player.Get_Position();
 		std::cout << "\n\n";
 	}
+}
+
+void Team::Win_Increase_Budget() {
+	m_budget += 100000;	/// 100k
+}
+
+void Team::Draw_Increase_Budget() {
+	m_budget += 50000;	/// 50k
+}
+
+void Team::Match_Increase_Budget(long long& sum) {
+	m_budget += sum;
+}
+
+void Team::Print_Budget() {
+	std::cout << m_budget;
 }
