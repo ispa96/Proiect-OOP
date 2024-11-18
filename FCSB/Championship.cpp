@@ -114,12 +114,18 @@ void Championship::Run() {
 		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
 	std::cout << '\n';
 
+	int my_index = 0;
+	index = 0;
+
 	std::cout << "[WARNING]: Echipa ta se afla pe locul ";
 	for (auto& team : m_teams) {
 		if (team.Get_Name() == "FCSB") {
+			my_index = index;
 			std::cout << team.Get_Position_In_Championship();
 			break;
 		}
+
+		index++;
 	}
 	std::cout << ".\n";
 	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in prima jumatate a SUPERLIGII:\n\n";
@@ -130,7 +136,14 @@ void Championship::Run() {
 		}
 	}
 
-	std::cout << "\n[WARNING': Apasa [ENTER] pentru a trece in perioada de transferuri !";
+	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a vedea lotul curent al echipei!\n";
+	std::getline(std::cin, str);
+
+	std::cout << "\n[WARNING]: Acesta este lotul echipei tale inainte de perioada de transferuri:\n\n";
+	m_teams[my_index].Init_Players();
+	m_teams[my_index].Get_Players();
+
+	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a trece in perioada de transferuri !";
 	std::getline(std::cin, str);
 	system("cls");
 

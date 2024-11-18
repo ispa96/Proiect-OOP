@@ -141,14 +141,18 @@
   <ItemGroup>
     <ClCompile Include="Championship.cpp" />
     <ClCompile Include="FCSB.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Team.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Championship.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Team.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Echipe_Superliga.in" />
+    <None Include="FCSB.in" />
+    <None Include="Transfermarkt.in" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
