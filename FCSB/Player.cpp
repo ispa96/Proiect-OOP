@@ -15,3 +15,11 @@ void Player::Get_FirstName_LastName() {
 void Player::Get_Position() {
 	std::cout << m_position;
 }
+
+void Player::Get_Value() {
+	std::cout << m_value;
+}
+
+long long Player::Get_Value_Number() {
+	return m_value;
+}

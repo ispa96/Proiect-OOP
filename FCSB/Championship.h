@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <vector>
 
+#include "Transfermarkt.h"
 #include "Team.h"
 
 class Championship {

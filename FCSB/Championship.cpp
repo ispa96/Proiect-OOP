@@ -168,4 +168,8 @@ void Championship::Run() {
 	std::cout << " euro!\n";
 	std::cout << "[WARNING]: Apasa [ENTER] pentru afisarea jucatorilor transferabili !\n";
 	std::getline(std::cin, str);
+
+	Transfermarkt transfermarkt;
+	transfermarkt.Init_Players();
+	transfermarkt.Print_Players();
 }

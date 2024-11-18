@@ -15,5 +15,7 @@ public:
 	Player(std::string, std::string, std::string, long long);
 	void Get_FirstName_LastName();
 	void Get_Position();
+	void Get_Value();
+	long long Get_Value_Number();
 };
 

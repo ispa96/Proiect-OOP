@@ -78,7 +78,6 @@ void Team::Init_Players() {
 
 		// std::cout << first_name << ' ' << last_name << ' ' << position << ' ' << value << '\n';
 
-		/// creeaza jucatorul cu datele respective si il baga pe Transfermarkt 
 		Player p(first_name, last_name, position, value);
 		m_players.emplace_back(p);
 	}

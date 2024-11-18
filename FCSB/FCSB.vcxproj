@@ -143,11 +143,13 @@
     <ClCompile Include="FCSB.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Team.cpp" />
+    <ClCompile Include="Transfermarkt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Championship.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Team.h" />
+    <ClInclude Include="Transfermarkt.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Echipe_Superliga.in" />
