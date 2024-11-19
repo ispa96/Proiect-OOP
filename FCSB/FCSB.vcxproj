@@ -145,6 +145,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Team.cpp" />
     <ClCompile Include="Transfermarkt.cpp" />
+    <ClCompile Include="Trans_Team.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Championship.h" />
@@ -152,8 +153,10 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Team.h" />
     <ClInclude Include="Transfermarkt.h" />
+    <ClInclude Include="Trans_Team.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Echipe_Interesate_de_Mine.in" />
     <None Include="Echipe_Superliga.in" />
     <None Include="FCSB.in" />
     <None Include="Transfermarkt.in" />

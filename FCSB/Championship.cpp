@@ -6,6 +6,7 @@
 #include <algorithm>
 
 std::ifstream fin("Echipe_Superliga.in");
+std::ifstream ff("Echipe_Interesate_de_Mine.in");
 
 Championship::Championship() {
 	m_name = "SUPERLIGA";
@@ -250,9 +251,74 @@ void Championship::Run() {
 	}
 	/// else nu face nimic
 
-	std::cout << "[WARNING]: Perioada de transferuri s-a incheiat!\n";
-	std::cout << "[WARNING]: Urmeaza cea de-a doua jumatate a sezonului!\n";
-	std::cout << "[WARNING]: Multa Bafta !!!\n";
-	std::cout << "[WARNING]: Apasa [ENTER] pentru reinceperea campionatului!\n";
-	std::getline(std::cin, str);
+	std::cout << "[WARNING]: Perioada de transferuri inca nu s-a incheiat!\n";
+	std::cout << "[WARNING]: Aveti o oferta de a va transfera la alta echipa!\n";
+	std::cout << "[WARNING]: Mai jos este lista detaliile contractului: \n";
+
+	std::string name1, name2;
+	int contract_years, salary_years;
+	std::vector<Trans_Team> teams;
+
+	while (ff >> name1 >> name2 >> contract_years >> salary_years) {
+		Trans_Team team(name1, name2, contract_years, salary_years);
+		teams.emplace_back(team);
+	}
+
+	srand(static_cast <unsigned int> (time(0)));
+	int random_index = rand() % 4;
+	std::string string;
+
+	std::cout << "\n==========================================";
+	std::cout << "\n[TEAM_NAME]: ";
+	teams[random_index].Print_Name();
+	std::cout << "\n[YEARS]: ";
+	teams[random_index].Print_Contract_Years();
+	std::cout << " ani de contract \n[SALARY]: ";
+	teams[random_index].Print_Salary();
+	std::cout << " milioane de euro / an\n==========================================\n\n";
+
+	std::cout << "[WARNING]: Acceptati ?\n";
+	std::cout << "[WARNING]: Apasati '1' pentru 'DA', respectiv '0' pentru 'NU' !\n";
+	std::cin >> value;
+
+	if (value == 1) {
+		system("cls");
+		std::cout << "[WARNING]: MULTUMIM PENTRU TOT CE ATI FACUT PENTRU NOI !\n[WARNING]: VA DORIM MULT NOROC LA NOUA ECHIPA!\n";
+		return;
+	}
+
+	/// ----------------------------------------------------------------------------- A DOUA PARTE A CAMPIONATULUI ----------------------------------------------------------------------------------------
+	
+	system("cls");
+	std::cout << "[WARNING]: SUNTEM BUCUROSI CA ATI ALES SA CONTINUATI CU NOI!\n[WARNING]: Apasati [ENTER] pentru a continua sezonul!\n";
+	std::getline(std::cin, string);
+	std::cin.ignore();
+	system("cls");
+
+	std::cout << "[WARNING]: Reincep partidele!\n";
+	std::cout << "[WARNING]: Urmeaza ultimele 15 etape din campionatul curent!\n";
+	std::cout << "[WARNING]: Multa bafta!\n";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea ultimelor 15 meciuri de campionat!\n";
+	std::cin.ignore();
+
+	times = 0;
+	it = 1;
+	while (times != 30) {
+		system("cls");
+		std::cout << "-------------------------------";
+		std::cout << '\n';
+		std::cout << '|';
+		for (unsigned int j = 0; j < it - 1; j++)
+			std::cout << char(35);
+		for (unsigned int j = 0; j < 29 - times; j++)
+			std::cout << ' ';
+		std::cout << "|";
+		std::cout << '\n';
+		std::cout << "-------------------------------";
+
+		times++;
+		it++;
+		Sleep(30);
+	}
+	system("cls");
 }
