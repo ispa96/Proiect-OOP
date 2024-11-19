@@ -175,8 +175,9 @@ void Championship::Run() {
 
 	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a vedea lotul curent al echipei!\n";
 	std::getline(std::cin, str);
+	system("cls");
 
-	std::cout << "\n[WARNING]: Acesta este lotul echipei tale inainte de perioada de transferuri:\n\n";
+	std::cout << "[WARNING]: Acesta este lotul echipei tale inainte de perioada de transferuri:\n\n";
 	m_teams[my_index].Init_Players();
 	m_teams[my_index].Get_Players();
 
@@ -249,7 +250,10 @@ void Championship::Run() {
 		m_teams[my_index].Print_Budget();
 		std::cout << " euro !\n";
 	}
-	/// else nu face nimic
+	else { /// else nu face nimic ( pot sa printez un mesaj ca nu s a transferat niciun jucator)
+		system("cls");
+		std::cout << "[WARNING]: Nu ati transferat niciun jucator!\n";
+	}
 
 	std::cout << "[WARNING]: Perioada de transferuri inca nu s-a incheiat!\n";
 	std::cout << "[WARNING]: Aveti o oferta de a va transfera la alta echipa!\n";
@@ -284,6 +288,8 @@ void Championship::Run() {
 	if (value == 1) {
 		system("cls");
 		std::cout << "[WARNING]: MULTUMIM PENTRU TOT CE ATI FACUT PENTRU NOI !\n[WARNING]: VA DORIM MULT NOROC LA NOUA ECHIPA!\n";
+		std::cin.ignore();
+		system("cls");
 		return;
 	}
 
@@ -297,7 +303,7 @@ void Championship::Run() {
 
 	std::cout << "[WARNING]: Reincep partidele!\n";
 	std::cout << "[WARNING]: Urmeaza ultimele 15 etape din campionatul curent!\n";
-	std::cout << "[WARNING]: Multa bafta!\n";
+	std::cout << "[WARNING]: Multa bafta !!!\n";
 	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea ultimelor 15 meciuri de campionat!\n";
 	std::cin.ignore();
 
@@ -320,5 +326,102 @@ void Championship::Run() {
 		it++;
 		Sleep(30);
 	}
+	system("cls");
+
+	srand(static_cast <unsigned int> (time(0)));
+
+	for (int i = 0; i < m_teams.size() - 1; i++) {
+		for (int j = i + 1; j < m_teams.size(); j++) {
+			/// o sa joace m_teams[i] cu m_teams[j]
+
+			long long supporters = rand() % 30000 + 1;	/// 30k
+			if (supporters < 15000)
+				supporters += 15000;
+			supporters *= 10;
+
+			m_teams[i].Match_Increase_Budget(supporters);
+			m_teams[j].Match_Increase_Budget(supporters);
+
+			int goals1 = rand() % 6;
+			int goals2 = rand() % 6;
+			// std::cout << goals1 << ' ' << goals2 << '\n';
+
+			if (goals1 > goals2) {	/// a castigat m_teams[i]
+				m_teams[i].Win_Increase_Points();
+				m_teams[i].Win_Increase_Budget();
+
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("WIN");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("LOSE");
+			}
+			else if (goals1 == goals2) {	/// s a terminat egal
+				m_teams[i].Draw_Increase_Points();
+				m_teams[j].Draw_Increase_Points();
+				m_teams[i].Draw_Increase_Budget();
+				m_teams[j].Draw_Increase_Budget();
+
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals1, goals2);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("DRAW");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("DRAW");
+			}
+			else {	/// a castigat m_teams[j]
+				m_teams[j].Win_Increase_Points();
+				m_teams[j].Win_Increase_Budget();
+
+				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
+				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
+
+				if (m_teams[i].Get_Name() == "FCSB")
+					coach.Update_Performance("LOSE");
+				if (m_teams[j].Get_Name() == "FCSB")
+					coach.Update_Performance("WIN");
+			}
+		}
+	}
+
+	sort(m_teams.begin(), m_teams.end(), cmp);
+	std::cout << "[WARNING]: Asa arata clasamentul dupa ultimele 15 meciuri !\n\n";
+
+	index = 0;
+	for (auto& team : m_teams)
+		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
+	std::cout << '\n';
+
+	my_index = 0;
+	index = 0;
+
+	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in a doua jumatate a SUPERLIGII:\n\n";
+	m_teams[my_index].Print_Status();
+
+	std::cout << "\n\n[WARNING]: Sezonul este GATA...\n";
+	std::cout << "[WARNING]: Apasa [ENTER] pentru a vedea realizarile tale in Superliga!\n";
+	std::cin.ignore();
+	system("cls");
+
+	std::cout << "[WARNING]: Rating-ul tau final, dupa 30 de meciuri in campionat este ";
+	coach.Calculate_Performance();
+	coach.Print_Performance();
+	std::cout << ".\n";
+	std::cout << "[WARNING]: Echipa ta a terminat pe locul ";
+	for (auto& team : m_teams) {
+		if (team.Get_Name() == "FCSB") {
+			my_index = index;
+			std::cout << team.Get_Position_In_Championship();
+			break;
+		}
+
+		index++;
+	}
+	std::cout << ".\n";
+	std::cout << "[WARNING]: FELICITARI !!!";
+	std::cin.ignore();
 	system("cls");
 }
