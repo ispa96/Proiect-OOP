@@ -50,7 +50,8 @@ Championship::Championship() {
 /// start of championship (add teams to championship + info)
 void Championship::Init_Championship() {
 	std::string str;
-	std::cout << "--- Bun venit la noul tau club ! ---\n";
+	std::cout << "--- Bun venit la FCSB, noul tau club ! ---\n\n";
+	std::cout << "Vei participa la primul tau sezon ca antrenor !\n";
 	std::cout << "Apasa [ENTER] pentru a incepe aventura !\n";
 	std::getline(std::cin, str);
 	system("cls");
