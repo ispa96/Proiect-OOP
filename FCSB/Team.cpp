@@ -134,3 +134,7 @@ void Team::Print_Trans_Players() {
 		std::cout << "\n\n";
 	}
 }
+
+void Team::Clear_Status() {
+	m_status.clear();
+}

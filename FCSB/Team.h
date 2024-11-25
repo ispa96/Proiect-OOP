@@ -30,6 +30,7 @@ public:
 	void Draw_Increase_Budget();
 	void Match_Increase_Budget(long long&);
 	void Print_Budget();
+	void Clear_Status();
 	void Add_Player(Player&);
 	void Update_Budget(long long);
 	void Add_Trans_Player(Player&);

@@ -8,15 +8,46 @@
 std::ifstream fin("Echipe_Superliga.in");
 std::ifstream ff("Echipe_Interesate_de_Mine.in");
 
-Championship::Championship() {
-	m_name = "SUPERLIGA";
-}
+Coach coach;
 
+/// for sort function
 static bool cmp(Team& t1, Team& t2) {
 	return t1.Get_Points() > t2.Get_Points();
 }
 
-void Championship::Run() {
+/// loading bar
+static void Sleep_Animation() {
+	int times = 0, it = 1;
+
+	while (times != 30) {
+		system("cls");
+		std::cout << "-------------------------------";
+		std::cout << '\n';
+		std::cout << '|';
+		for (int j = 0; j < it - 1; j++)
+			std::cout << char(35);
+		for (int j = 0; j < 29 - times; j++)
+			std::cout << ' ';
+		std::cout << "|";
+		std::cout << '\n';
+		std::cout << "-------------------------------";
+
+		times++;
+		it++;
+		Sleep(30);
+	}
+	system("cls");
+}
+
+
+/// constuctor 
+Championship::Championship() {
+	m_name = "SUPERLIGA";
+}
+
+
+/// start of championship (add teams to championship + info)
+void Championship::Init_Championship() {
 	std::string str;
 	std::cout << "--- Bun venit la noul tau club ! ---\n";
 	std::cout << "Apasa [ENTER] pentru a incepe aventura !\n";
@@ -55,32 +86,14 @@ void Championship::Run() {
 	std::getline(std::cin, str);
 	system("cls");
 
-	int times = 0, it = 1;
+	Sleep_Animation();
+}
 
-	while (times != 30) {
-		system("cls");
-		std::cout << "-------------------------------";
-		std::cout << '\n';
-		std::cout << '|';
-		for (unsigned int j = 0; j < it - 1; j++)
-			std::cout << char(35);
-		for (unsigned int j = 0; j < 29 - times; j++)
-			std::cout << ' ';
-		std::cout << "|";
-		std::cout << '\n';
-		std::cout << "-------------------------------";
 
-		times++;
-		it++;
-		Sleep(30);
-	}
-	system("cls");
-
-	/// ------------------------------------------------------------------------------- PRIMA PARTE A CAMPIONATULUI --------------------------------------------------------------------
-
+/// simulate matches
+void Championship::Play_Matches() {
 	/// acum trebuie sa simulez primele 15 meciuri pentru fiecare echipa
 	srand(static_cast <unsigned int> (time(0)));
-	Coach coach;
 
 	for (int i = 0; i < m_teams.size() - 1; i++) {
 		for (int j = i + 1; j < m_teams.size(); j++) {
@@ -140,52 +153,22 @@ void Championship::Run() {
 	}
 
 	sort(m_teams.begin(), m_teams.end(), cmp);
-	std::cout << "[WARNING]: Asa arata clasamentul dupa primele 15 meciuri !\n\n";
+}
 
-	index = 0;
-	for (auto& team : m_teams)
-		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
-	std::cout << '\n';
 
-	int my_index = 0;
-	index = 0;
+/// simulate transfers
+void Championship::Transfer_Window() {
+	int my_index = 0, index = 0;
+	std::string str;
 
-	std::cout << "[WARNING]: Rating-ul tau ca antrenor este ";
-	coach.Calculate_Performance();
-	coach.Print_Performance();
-	std::cout << ".\n";
-	std::cout << "[WARNING]: Echipa ta se afla pe locul ";
 	for (auto& team : m_teams) {
 		if (team.Get_Name() == "FCSB") {
 			my_index = index;
-			std::cout << team.Get_Position_In_Championship();
 			break;
 		}
 
 		index++;
 	}
-	std::cout << ".\n";
-	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in prima jumatate a SUPERLIGII:\n\n";
-	for (auto& team : m_teams) {
-		if (team.Get_Name() == "FCSB") {
-			team.Print_Status();
-			break;
-		}
-	}
-
-	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a vedea lotul curent al echipei!\n";
-	std::getline(std::cin, str);
-	system("cls");
-
-	std::cout << "[WARNING]: Acesta este lotul echipei tale inainte de perioada de transferuri:\n\n";
-	m_teams[my_index].Init_Players();
-	m_teams[my_index].Get_Players();
-
-	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a trece in perioada de transferuri !\n";
-	std::getline(std::cin, str);
-	system("cls");
-
-	/// ------------------------------------------------------------------------------- PERIOADA DE TRANSFERURI --------------------------------------------------------------------
 
 	std::cout << "[WARNING]: Ne aflam in perioada de transferuri!\n";
 	std::cout << "[WARNING]: Bugetul echipei tale este in valoare de ";
@@ -205,27 +188,7 @@ void Championship::Run() {
 	std::cin >> value;
 
 	if (value == 1) {
-		times = 0;
-		it = 1;
-
-		while (times != 30) {
-			system("cls");
-			std::cout << "-------------------------------";
-			std::cout << '\n';
-			std::cout << '|';
-			for (unsigned int j = 0; j < it - 1; j++)
-				std::cout << char(35);
-			for (unsigned int j = 0; j < 29 - times; j++)
-				std::cout << ' ';
-			std::cout << "|";
-			std::cout << '\n';
-			std::cout << "-------------------------------";
-
-			times++;
-			it++;
-			Sleep(30);
-		}
-		system("cls");
+		Sleep_Animation();
 
 		int trans_players = 0;
 		for (int i = 0; i < 7; i++) {
@@ -237,7 +200,7 @@ void Championship::Run() {
 				m_teams[my_index].Add_Player(player);
 
 				m_teams[my_index].Add_Player(player);
-				m_teams[my_index].Update_Budget(player.Get_Value_Number()* 1000000);
+				m_teams[my_index].Update_Budget(player.Get_Value_Number() * 1000000);
 				// m_teams[my_index].Print_Budget();
 				// std::cout << '\n';
 			}
@@ -292,9 +255,12 @@ void Championship::Run() {
 		system("cls");
 		return;
 	}
+}
 
-	/// ----------------------------------------------------------------------------- A DOUA PARTE A CAMPIONATULUI ----------------------------------------------------------------------------------------
-	
+
+/// finish transfer window
+void Championship::Exit_Transfer_Window() {
+	std::string string;
 	system("cls");
 	std::cout << "[WARNING]: SUNTEM BUCUROSI CA ATI ALES SA CONTINUATI CU NOI!\n[WARNING]: Apasati [ENTER] pentru a continua sezonul!\n";
 	std::getline(std::cin, string);
@@ -307,96 +273,77 @@ void Championship::Run() {
 	std::cout << "[WARNING]: Apasa [ENTER] pentru derularea ultimelor 15 meciuri de campionat!\n";
 	std::cin.ignore();
 
-	times = 0;
-	it = 1;
-	while (times != 30) {
-		system("cls");
-		std::cout << "-------------------------------";
-		std::cout << '\n';
-		std::cout << '|';
-		for (unsigned int j = 0; j < it - 1; j++)
-			std::cout << char(35);
-		for (unsigned int j = 0; j < 29 - times; j++)
-			std::cout << ' ';
-		std::cout << "|";
-		std::cout << '\n';
-		std::cout << "-------------------------------";
+	Sleep_Animation();
+}
 
-		times++;
-		it++;
-		Sleep(30);
-	}
-	system("cls");
 
-	srand(static_cast <unsigned int> (time(0)));
+/// info about first results
+void Championship::Info_First_Half() {
+	std::cout << "[WARNING]: Asa arata clasamentul dupa primele 15 meciuri !\n\n";
 
-	for (int i = 0; i < m_teams.size() - 1; i++) {
-		for (int j = i + 1; j < m_teams.size(); j++) {
-			/// o sa joace m_teams[i] cu m_teams[j]
-
-			long long supporters = rand() % 30000 + 1;	/// 30k
-			if (supporters < 15000)
-				supporters += 15000;
-			supporters *= 10;
-
-			m_teams[i].Match_Increase_Budget(supporters);
-			m_teams[j].Match_Increase_Budget(supporters);
-
-			int goals1 = rand() % 6;
-			int goals2 = rand() % 6;
-			// std::cout << goals1 << ' ' << goals2 << '\n';
-
-			if (goals1 > goals2) {	/// a castigat m_teams[i]
-				m_teams[i].Win_Increase_Points();
-				m_teams[i].Win_Increase_Budget();
-
-				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
-				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
-
-				if (m_teams[i].Get_Name() == "FCSB")
-					coach.Update_Performance("WIN");
-				if (m_teams[j].Get_Name() == "FCSB")
-					coach.Update_Performance("LOSE");
-			}
-			else if (goals1 == goals2) {	/// s a terminat egal
-				m_teams[i].Draw_Increase_Points();
-				m_teams[j].Draw_Increase_Points();
-				m_teams[i].Draw_Increase_Budget();
-				m_teams[j].Draw_Increase_Budget();
-
-				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
-				m_teams[j].Update_Status(m_teams[i], goals1, goals2);
-
-				if (m_teams[i].Get_Name() == "FCSB")
-					coach.Update_Performance("DRAW");
-				if (m_teams[j].Get_Name() == "FCSB")
-					coach.Update_Performance("DRAW");
-			}
-			else {	/// a castigat m_teams[j]
-				m_teams[j].Win_Increase_Points();
-				m_teams[j].Win_Increase_Budget();
-
-				m_teams[i].Update_Status(m_teams[j], goals1, goals2);
-				m_teams[j].Update_Status(m_teams[i], goals2, goals1);
-
-				if (m_teams[i].Get_Name() == "FCSB")
-					coach.Update_Performance("LOSE");
-				if (m_teams[j].Get_Name() == "FCSB")
-					coach.Update_Performance("WIN");
-			}
-		}
-	}
-
-	sort(m_teams.begin(), m_teams.end(), cmp);
-	std::cout << "[WARNING]: Asa arata clasamentul dupa ultimele 15 meciuri !\n\n";
-
-	index = 0;
+	int index = 0;
 	for (auto& team : m_teams)
 		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
 	std::cout << '\n';
 
-	my_index = 0;
+	int my_index = 0;
 	index = 0;
+	std::cout << "[WARNING]: Rating-ul tau ca antrenor este ";
+	coach.Calculate_Performance();
+	coach.Print_Performance();
+	std::cout << ".\n";
+	std::cout << "[WARNING]: Echipa ta se afla pe locul ";
+
+	for (auto& team : m_teams) {
+		if (team.Get_Name() == "FCSB") {
+			my_index = index;
+			std::cout << team.Get_Position_In_Championship();
+			break;
+		}
+
+		index++;
+	}
+	std::cout << ".\n";
+	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in prima jumatate a SUPERLIGII:\n\n";
+
+	m_teams[my_index].Print_Status();
+	m_teams[my_index].Clear_Status();
+
+	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a vedea lotul curent al echipei!\n";
+	std::string str;
+	std::getline(std::cin, str);
+	system("cls");
+
+	std::cout << "[WARNING]: Acesta este lotul echipei tale inainte de perioada de transferuri:\n\n";
+	m_teams[my_index].Init_Players();
+	m_teams[my_index].Get_Players();
+
+	std::cout << "\n[WARNING]: Apasa [ENTER] pentru a trece in perioada de transferuri !\n";
+	std::getline(std::cin, str);
+	system("cls");
+}
+
+
+/// info about second results + per total
+void Championship::Info_Second_Half() {
+	std::cout << "[WARNING]: Asa arata clasamentul dupa ultimele 15 meciuri !\n\n";
+
+	int index = 0;
+	for (auto& team : m_teams)
+		team.Set_Position_In_Championship(index + 1), std::cout << ++index << ". ", team.Print_Name(), std::cout << ' ', team.Print_Points(), std::cout << " pts.\n", Sleep(50);
+	std::cout << '\n';
+
+	int my_index = 0;
+	index = 0;
+
+	for (auto& team : m_teams) {
+		if (team.Get_Name() == "FCSB") {
+			my_index = index;
+			break;
+		}
+
+		index++;
+	}
 
 	std::cout << "[WARNING]: Acestea sunt rezultatele obtinute de echipa ta in a doua jumatate a SUPERLIGII:\n\n";
 	m_teams[my_index].Print_Status();
@@ -424,4 +371,26 @@ void Championship::Run() {
 	std::cout << "[WARNING]: FELICITARI !!!";
 	std::cin.ignore();
 	system("cls");
+}
+
+
+/// everything...
+void Championship::Run() {
+	Init_Championship();
+
+	/// ------------------------------------------------------------------------------- PRIMA PARTE A CAMPIONATULUI --------------------------------------------------------------------
+
+	Play_Matches();
+	Info_First_Half();
+
+	/// ------------------------------------------------------------------------------- PERIOADA DE TRANSFERURI --------------------------------------------------------------------
+
+	Transfer_Window();
+	Exit_Transfer_Window();
+
+	/// ----------------------------------------------------------------------------- A DOUA PARTE A CAMPIONATULUI ----------------------------------------------------------------------------------------
+	
+	
+	Play_Matches();
+	Info_Second_Half();
 }
