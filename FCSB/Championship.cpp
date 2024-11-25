@@ -9,6 +9,7 @@ std::ifstream fin("Echipe_Superliga.in");
 std::ifstream ff("Echipe_Interesate_de_Mine.in");
 
 Coach coach;
+bool leave_team = false;
 
 /// for sort function
 static bool cmp(Team& t1, Team& t2) {
@@ -92,7 +93,6 @@ void Championship::Init_Championship() {
 
 /// simulate matches
 void Championship::Play_Matches() {
-	/// acum trebuie sa simulez primele 15 meciuri pentru fiecare echipa
 	srand(static_cast <unsigned int> (time(0)));
 
 	for (int i = 0; i < m_teams.size() - 1; i++) {
@@ -156,6 +156,49 @@ void Championship::Play_Matches() {
 }
 
 
+/// possible transfer (for coach/me)
+void Championship::Leave_Or_Stay() {
+	std::cout << "[WARNING]: Perioada de transferuri inca nu s-a incheiat!\n";
+	std::cout << "[WARNING]: Aveti o oferta de a va transfera la alta echipa!\n";
+	std::cout << "[WARNING]: Mai jos este lista detaliile contractului: \n";
+
+	std::string name1, name2;
+	int contract_years, salary_years;
+	std::vector<Trans_Team> teams;
+
+	while (ff >> name1 >> name2 >> contract_years >> salary_years) {
+		Trans_Team team(name1, name2, contract_years, salary_years);
+		teams.emplace_back(team);
+	}
+
+	srand(static_cast <unsigned int> (time(0)));
+	int random_index = rand() % 4, value;
+	std::string string;
+
+	std::cout << "\n==========================================";
+	std::cout << "\n[TEAM_NAME]: ";
+	teams[random_index].Print_Name();
+	std::cout << "\n[YEARS]: ";
+	teams[random_index].Print_Contract_Years();
+	std::cout << " ani de contract \n[SALARY]: ";
+	teams[random_index].Print_Salary();
+	std::cout << " milioane de euro / an\n==========================================\n\n";
+
+	std::cout << "[WARNING]: Acceptati ?\n";
+	std::cout << "[WARNING]: Apasati '1' pentru 'DA', respectiv '0' pentru 'NU' !\n";
+	std::cin >> value;
+
+	if (value == 1) {
+		leave_team = true;
+		system("cls");
+		std::cout << "[WARNING]: MULTUMIM PENTRU TOT CE ATI FACUT PENTRU NOI !\n[WARNING]: VA DORIM MULT NOROC LA NOUA ECHIPA!\n";
+		std::cin.get();
+		std::cin.get();
+		system("cls");
+	}
+}
+
+
 /// simulate transfers
 void Championship::Transfer_Window() {
 	int my_index = 0, index = 0;
@@ -201,8 +244,6 @@ void Championship::Transfer_Window() {
 
 				m_teams[my_index].Add_Player(player);
 				m_teams[my_index].Update_Budget(player.Get_Value_Number() * 1000000);
-				// m_teams[my_index].Print_Budget();
-				// std::cout << '\n';
 			}
 			else break;
 		}
@@ -218,53 +259,16 @@ void Championship::Transfer_Window() {
 		std::cout << "[WARNING]: Nu ati transferat niciun jucator!\n";
 	}
 
-	std::cout << "[WARNING]: Perioada de transferuri inca nu s-a incheiat!\n";
-	std::cout << "[WARNING]: Aveti o oferta de a va transfera la alta echipa!\n";
-	std::cout << "[WARNING]: Mai jos este lista detaliile contractului: \n";
-
-	std::string name1, name2;
-	int contract_years, salary_years;
-	std::vector<Trans_Team> teams;
-
-	while (ff >> name1 >> name2 >> contract_years >> salary_years) {
-		Trans_Team team(name1, name2, contract_years, salary_years);
-		teams.emplace_back(team);
-	}
-
-	srand(static_cast <unsigned int> (time(0)));
-	int random_index = rand() % 4;
-	std::string string;
-
-	std::cout << "\n==========================================";
-	std::cout << "\n[TEAM_NAME]: ";
-	teams[random_index].Print_Name();
-	std::cout << "\n[YEARS]: ";
-	teams[random_index].Print_Contract_Years();
-	std::cout << " ani de contract \n[SALARY]: ";
-	teams[random_index].Print_Salary();
-	std::cout << " milioane de euro / an\n==========================================\n\n";
-
-	std::cout << "[WARNING]: Acceptati ?\n";
-	std::cout << "[WARNING]: Apasati '1' pentru 'DA', respectiv '0' pentru 'NU' !\n";
-	std::cin >> value;
-
-	if (value == 1) {
-		system("cls");
-		std::cout << "[WARNING]: MULTUMIM PENTRU TOT CE ATI FACUT PENTRU NOI !\n[WARNING]: VA DORIM MULT NOROC LA NOUA ECHIPA!\n";
-		std::cin.ignore();
-		system("cls");
-		return;
-	}
+	Leave_Or_Stay();
 }
 
 
 /// finish transfer window
 void Championship::Exit_Transfer_Window() {
-	std::string string;
 	system("cls");
 	std::cout << "[WARNING]: SUNTEM BUCUROSI CA ATI ALES SA CONTINUATI CU NOI!\n[WARNING]: Apasati [ENTER] pentru a continua sezonul!\n";
-	std::getline(std::cin, string);
-	std::cin.ignore();
+	std::cin.get();
+	std::cin.get();
 	system("cls");
 
 	std::cout << "[WARNING]: Reincep partidele!\n";
@@ -386,10 +390,10 @@ void Championship::Run() {
 	/// ------------------------------------------------------------------------------- PERIOADA DE TRANSFERURI --------------------------------------------------------------------
 
 	Transfer_Window();
+	if (leave_team) return;
 	Exit_Transfer_Window();
 
 	/// ----------------------------------------------------------------------------- A DOUA PARTE A CAMPIONATULUI ----------------------------------------------------------------------------------------
-	
 	
 	Play_Matches();
 	Info_Second_Half();

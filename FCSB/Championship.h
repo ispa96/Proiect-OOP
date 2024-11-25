@@ -17,11 +17,12 @@ private:
 
 public:
 	Championship();
+	void Init_Championship();
 	void Run();
 	void Play_Matches();
 	void Transfer_Window();
+	void Leave_Or_Stay();
 	void Exit_Transfer_Window();
-	void Init_Championship();
 	void Info_First_Half();
 	void Info_Second_Half();
 };
